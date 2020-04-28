@@ -11,20 +11,13 @@ class App extends React.Component {
     super(props)
     this.state = {
       cars: [],
-      dealerReviews: [],
-      interval: 0,
-      reviewId: 0,
       currentCarId: 0,
-      reviewsOn: true,
       currentView: "cars"
     }
   }
 
-  // when this component mounts, I want to get all the cars data from my backend...
   componentDidMount() {
     this.getCars()
-    this.getDealerReviews()
-    this.startInterval()
   }
 
   getCars = () => {
@@ -37,40 +30,7 @@ class App extends React.Component {
       })
   }
 
-  getDealerReviews = () => {
-    fetch("http://localhost:3001/api/v1/dealer_reviews")
-      .then(resp => resp.json())
-      .then(reviews => {
-        this.setState({
-          dealerReviews: reviews
-        })
-      })
-  }
-
-  startInterval = () => {
-    this.state.interval && this.stopInterval() // ensure to kill current interval if there is one before starting another..
-     this.setState({
-       interval: setInterval(this.setReview, 3000)
-     })
-  }
-  // I did change the name to match what this method is doing -- in the lecture I called it `startInterval` but that doesn't make sense -- I'm starting the interval inside componentDidMount
-  setReview = () => {
-    // find a review at random
-    // update the state with that review
-    const review = this.state.dealerReviews[Math.floor(Math.random() * this.state.dealerReviews.length)]
-    this.setState({
-      reviewId: review ? review.id : 0
-    })
-  }
-
-  stopInterval = () => clearInterval(this.state.interval)
-
   handleCarLinkClick = (id) => this.setState({ currentCarId: id, currentView: "cars" })
-
-  handleReviewsButtonClick = () => {
-    this.state.reviewsOn ? this.stopInterval() : this.startInterval()
-    this.setState({reviewsOn: !this.state.reviewsOn})
-  }
 
   newCarOrReviewClick = (currentView) => {
     this.setState({
@@ -144,12 +104,8 @@ class App extends React.Component {
           createCar={this.createCar}
           createReview={this.createReview}
         />
-        <button onClick={this.handleReviewsButtonClick}>{this.state.reviewsOn ? "Hide Reviews" : "Show Reviews Slideshow"}</button>
-        {this.state.reviewsOn && <ReviewsContainer
-          reviewsOn={this.state.reviewsOn}
-          review={this.state.dealerReviews.find(review => review.id === this.state.reviewId)}
-          stopInterval={this.stopInterval}
-        />}
+
+        <ReviewsContainer />
       </div>
 
     );
