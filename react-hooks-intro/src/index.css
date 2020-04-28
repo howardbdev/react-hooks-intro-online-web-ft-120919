@@ -11,3 +11,68 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#root {
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.MainContainer {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.ReviewsContainer {
+  margin: 8px;
+  padding: 5px;
+  border-radius: 4px;
+  border-color: darkgray;
+  border-style: solid;
+  border-width: 1px;
+  max-width: 500px;
+}
+
+.Car, .SideBar {
+  margin: 4px;
+  padding: 4px;
+  border-radius: 3px;
+  border-color: darkgray;
+  border-style: solid;
+  box-shadow: 4px 4px lightsteelblue;
+  border-width: 1px;
+  min-width: 200px;
+}
+
+.SideBar {
+  display: flex;
+  flex-direction: column
+}
+
+a:hover {
+  text-shadow: 1px 1px darkgray;
+  cursor: pointer;
+  color: green;
+}
+
+button {
+  box-shadow: 1px 1px lightsteelblue;
+  border-radius: 4px;
+  border-color: navy;
+  border-style: solid;
+  margin: 10px;
+  padding: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px lightsteelblue;
+  border-radius: 4px;
+  border-color: gold;
+  color: white;
+  border-style: solid;
+  background-color: navy
+}
