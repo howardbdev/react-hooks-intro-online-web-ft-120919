@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       cars: [],
       currentCarId: 0,
-      currentView: "cars"
+      currentView: "cars",
     }
   }
 
@@ -32,7 +32,7 @@ class App extends React.Component {
 
   handleCarLinkClick = (id) => this.setState({ currentCarId: id, currentView: "cars" })
 
-  newCarOrReviewClick = (currentView) => {
+  newCarClick = (currentView) => {
     this.setState({
       currentView
     })
@@ -63,30 +63,6 @@ class App extends React.Component {
       })
   }
 
-  createReview = (reviewData) => {
-    const body = {
-      dealer_review: reviewData
-    }
-    return fetch("http://localhost:3001/api/v1/dealer_reviews", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(body)
-    })
-      .then(r => r.json())
-      .then(newReview => {
-        if (newReview.error) {
-          alert(newReview.error)
-        } else {
-          this.setState({
-            dealerReviews: this.state.dealerReviews.concat(newReview)
-          })
-        }
-        return newReview
-      })
-  }
 
   // the render method should be a pure function of props and state
   render() {
@@ -100,9 +76,8 @@ class App extends React.Component {
           cars={this.state.cars}
           carId={this.state.currentCarId}
           handleCarLinkClick={this.handleCarLinkClick}
-          newCarOrReviewClick={this.newCarOrReviewClick}
+          newCarClick={this.newCarClick}
           createCar={this.createCar}
-          createReview={this.createReview}
         />
 
         <ReviewsContainer />

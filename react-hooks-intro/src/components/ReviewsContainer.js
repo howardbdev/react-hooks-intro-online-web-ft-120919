@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Review from './Review.js'
 import Reviews from "./Reviews.js"
+import NewReview from './NewReview.js'
 
 class ReviewsContainer extends Component {
   state = {
@@ -48,6 +49,31 @@ class ReviewsContainer extends Component {
 
   stopInterval = () => clearInterval(this.state.interval)
 
+  createReview = (reviewData) => {
+    const body = {
+      dealer_review: reviewData
+    }
+    return fetch("http://localhost:3001/api/v1/dealer_reviews", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+      .then(r => r.json())
+      .then(newReview => {
+        if (newReview.error) {
+          alert(newReview.error)
+        } else {
+          this.setState({
+            dealerReviews: this.state.dealerReviews.concat(newReview)
+          })
+        }
+        return newReview
+      })
+  }
+
   render() {
     return (
       <div className="ReviewsContainer">
@@ -61,6 +87,9 @@ class ReviewsContainer extends Component {
           stopInterval={this.stopInterval}
           review={this.state.dealerReviews.find(review => review.id === this.state.reviewId)}
         />}
+
+        <NewReview createReview={this.createReview}/>
+
       </div>
     );
   }

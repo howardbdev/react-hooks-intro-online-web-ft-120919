@@ -21,7 +21,7 @@ class MainContainer extends React.Component {
         <SideBar
           cars={this.props.cars}
           handleCarLinkClick={this.props.handleCarLinkClick}
-          newCarOrReviewClick={this.props.newCarOrReviewClick}
+          newCarClick={this.props.newCarClick}
         />
         { this.componentToRender() }
       </div>
