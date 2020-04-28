@@ -103,6 +103,31 @@ class App extends React.Component {
       })
   }
 
+  createReview = (reviewData) => {
+    const body = {
+      dealer_review: reviewData
+    }
+    return fetch("http://localhost:3001/api/v1/dealer_reviews", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+      .then(r => r.json())
+      .then(newReview => {
+        if (newReview.error) {
+          alert(newReview.error)
+        } else {
+          this.setState({
+            dealerReviews: this.state.dealerReviews.concat(newReview)
+          })
+        }
+        return newReview
+      })
+  }
+
   // the render method should be a pure function of props and state
   render() {
 
@@ -117,6 +142,7 @@ class App extends React.Component {
           handleCarLinkClick={this.handleCarLinkClick}
           newCarOrReviewClick={this.newCarOrReviewClick}
           createCar={this.createCar}
+          createReview={this.createReview}
         />
         <button onClick={this.handleReviewsButtonClick}>{this.state.reviewsOn ? "Hide Reviews" : "Show Reviews Slideshow"}</button>
         {this.state.reviewsOn && <ReviewsContainer

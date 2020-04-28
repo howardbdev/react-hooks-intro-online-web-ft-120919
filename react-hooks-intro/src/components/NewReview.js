@@ -14,6 +14,14 @@ class NewReview extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.createReview(this.state)
+      .then(response => !response.error && this.resetForm())
+  }
+
+  resetForm = () => {
+    this.setState({
+      rating: "5",
+      content: ""
+    })
   }
 
   render() {
@@ -21,7 +29,7 @@ class NewReview extends Component {
       <div className="NewReview">
         <h4>New Review</h4>
         <form onSubmit={this.handleSubmit}>
-          <select name="rating" onChange={this.handleChange}>
+          <select name="rating" onChange={this.handleChange} value={this.state.rating}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -31,6 +39,7 @@ class NewReview extends Component {
           <textarea
             onChange={this.handleChange}
             placeholder="Review Content"
+            value={this.state.content}
             name="content"
           /><br/>
           <input type="submit" value="Add Review"/>
