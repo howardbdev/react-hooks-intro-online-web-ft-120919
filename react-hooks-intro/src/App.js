@@ -15,12 +15,19 @@ class App extends React.Component {
       interval: 0,
       reviewId: 0,
       currentCarId: 0,
-      reviewsOn: true
+      reviewsOn: true,
+      currentView: "cars"
     }
   }
 
   // when this component mounts, I want to get all the cars data from my backend...
   componentDidMount() {
+    this.getCars()
+    this.getDealerReviews()
+    this.startInterval()
+  }
+
+  getCars = () => {
     fetch("http://localhost:3001/api/v1/cars")
       .then(resp => resp.json())
       .then(carsJSON => {
@@ -28,16 +35,16 @@ class App extends React.Component {
           cars: carsJSON
         })
       })
+  }
 
-      fetch("http://localhost:3001/api/v1/dealer_reviews")
-        .then(resp => resp.json())
-        .then(reviews => {
-          this.setState({
-            dealerReviews: reviews
-          })
+  getDealerReviews = () => {
+    fetch("http://localhost:3001/api/v1/dealer_reviews")
+      .then(resp => resp.json())
+      .then(reviews => {
+        this.setState({
+          dealerReviews: reviews
         })
-
-      this.startInterval()
+      })
   }
 
   startInterval = () => {
@@ -58,11 +65,42 @@ class App extends React.Component {
 
   stopInterval = () => clearInterval(this.state.interval)
 
-  handleCarLinkClick = (id) => this.setState({ currentCarId: id })
+  handleCarLinkClick = (id) => this.setState({ currentCarId: id, currentView: "cars" })
 
   handleReviewsButtonClick = () => {
     this.state.reviewsOn ? this.stopInterval() : this.startInterval()
     this.setState({reviewsOn: !this.state.reviewsOn})
+  }
+
+  newCarOrReviewClick = (currentView) => {
+    this.setState({
+      currentView
+    })
+  }
+
+  createCar = (carData) => {
+    const body = {
+      car: carData
+    }
+    return fetch("http://localhost:3001/api/v1/cars", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+      .then(r => r.json())
+      .then(newCar => {
+        if (newCar.error) {
+          alert(newCar.error)
+        } else {
+          this.setState({
+            cars: this.state.cars.concat(newCar)
+          })
+        }
+        return newCar
+      })
   }
 
   // the render method should be a pure function of props and state
@@ -72,7 +110,14 @@ class App extends React.Component {
 
       <div className="App">
         <h1>🚗 React Cars 🚙</h1>
-        <MainContainer cars={this.state.cars} carId={this.state.currentCarId} handleCarLinkClick={this.handleCarLinkClick}/>
+        <MainContainer
+          currentView={this.state.currentView}
+          cars={this.state.cars}
+          carId={this.state.currentCarId}
+          handleCarLinkClick={this.handleCarLinkClick}
+          newCarOrReviewClick={this.newCarOrReviewClick}
+          createCar={this.createCar}
+        />
         <button onClick={this.handleReviewsButtonClick}>{this.state.reviewsOn ? "Hide Reviews" : "Show Reviews Slideshow"}</button>
         {this.state.reviewsOn && <ReviewsContainer
           reviewsOn={this.state.reviewsOn}
