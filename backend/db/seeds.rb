@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-35.times do
+10.times do
   make = Faker::Vehicle.make
   model = Faker::Vehicle.model(make_of_model: make)
   Car.create({
@@ -14,22 +14,22 @@
     year: (1945..2020).to_a.sample,
     miles: (0..250000).to_a.sample,
     price: (10000..65000).to_a.sample,
-    used: [true, false].sample,
+    used: [true, false].sample
   })
 end
-
-plays = [
-  :hamlet_quote,
-  :as_you_like_it_quote,
-  :king_richard_iii_quote,
-  :romeo_and_juliet_quote
-]
-
-plays.each do |play|
-  10.times do
-    DealerReview.create({
-      rating: [1,2,3,4,5].sample,
-      content: Faker::Quotes::Shakespeare.send(play)
-    })
-  end
-end
+# 
+# plays = [
+#   :hamlet_quote,
+#   :as_you_like_it_quote,
+#   :king_richard_iii_quote,
+#   :romeo_and_juliet_quote
+# ]
+#
+# plays.each do |play|
+#   10.times do
+#     DealerReview.create({
+#       rating: [1,2,3,4,5].sample,
+#       content: Faker::Quotes::Shakespeare.send(play)
+#     })
+#   end
+# end
