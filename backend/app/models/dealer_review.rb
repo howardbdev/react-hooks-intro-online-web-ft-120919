@@ -1,0 +1,2 @@
+class DealerReview < ApplicationRecord
+end
