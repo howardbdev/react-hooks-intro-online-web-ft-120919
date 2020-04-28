@@ -1,4 +1,4 @@
-class DealerReviewsController < ApplicationController
+class Api::V1::DealerReviewsController < ApplicationController
   before_action :set_dealer_review, only: [:show, :update, :destroy]
 
   # GET /dealer_reviews
