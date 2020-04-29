@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Review from './Review.js'
 import Reviews from "./Reviews.js"
 import NewReview from './NewReview.js'
+import NewReviewWithHooks from './NewReviewWithHooks.js'
 
 class ReviewsContainer extends Component {
   state = {
@@ -88,6 +89,10 @@ class ReviewsContainer extends Component {
           review={this.state.dealerReviews.find(review => review.id === this.state.reviewId)}
         />}
 
+        <h3>With Hooks</h3>
+        <NewReviewWithHooks createReview={this.createReview}/>
+
+        <h3>No Hooks</h3>
         <NewReview createReview={this.createReview}/>
 
       </div>

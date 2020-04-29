@@ -3,7 +3,7 @@ import './App.css';
 import Review from './components/Review.js'
 import SideBar from './components/SideBar.js'
 import MainContainer from './components/MainContainer.js'
-import ReviewsContainer from './components/ReviewsContainer.js'
+import ReviewsContainerWithHooks from './components/ReviewsContainerWithHooks.js'
 
 class App extends React.Component {
 
@@ -80,7 +80,7 @@ class App extends React.Component {
           createCar={this.createCar}
         />
 
-        <ReviewsContainer />
+        <ReviewsContainerWithHooks />
       </div>
 
     );

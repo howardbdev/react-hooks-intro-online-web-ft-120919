@@ -47,7 +47,6 @@ class NewReview extends Component {
       </div>
     );
   }
-
 }
 
 export default NewReview;
